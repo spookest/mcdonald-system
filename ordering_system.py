@@ -38,9 +38,11 @@ class OrderingSystem:
 
     def checkout(self, login_system):
         total_points = self.calculate_total_points()
+
         if not login_system.current_user:
             print("You must log in first.")
             return
+
         username = login_system.current_user['username']
         login_system.update_user_points(username, total_points)
         print(f"Thank you for your order! Total points: {total_points} points")
@@ -71,26 +73,23 @@ def order_menu(login_system, order_system):
                 print("You must log in first.")
             else:
                 item = input("Enter the item you want to purchase: ")
-                quantity = int(input(f"How many {item}(s) do you want to buy? "))
+                quantity = int(input(f"How many {item} do you want to buy? "))
                 order_system.purchase_item(item, quantity)
 
-        elif choice == '3':
+        elif choice == "3":
             if not current_user:
                 print("You must log in first.")
             else:
                 order_system.view_cart()
 
-        elif choice == '4':
+        elif choice == "4":
             if not current_user:
                 print("You must log in first.")
             else:
                 order_system.checkout(login_system)
 
-        elif choice == '5':
-            print("Goodbye!")
-            break
+        elif choice == "5":
+            return True
 
         else:
-            print("Invalid choice. Please select a valid option.")
-
-
+            print("\nInvalid choice.")

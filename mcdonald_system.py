@@ -31,11 +31,11 @@ def main():
                 order_menu(login_system, order_system)
 
         elif choice == "3":
-            print("Goodbye!")
+            print("Goodbye! :)))))))))))")
             break
 
         else:
-            print("Invalid choice. Please select a valid option.")
+            print("Invalid choice.")
 
 if __name__ == "__main__":
     main()
