@@ -4,7 +4,6 @@ class OrderingSystem:
             "Burger": 5,
             "Fries": 3,
             "Soda": 2,
-            "Ice Cream": 4,
         }
         self.cart = {}
         self.current_user = current_user
@@ -48,10 +47,10 @@ class OrderingSystem:
             return
 
         username = login_system.current_user['username']
-        
+
         # Pass placeholders for new_username and new_password
         login_system.update_user_info(username, None, None, total_points)
-        
+
         print(f"Thank you for your order! Total points: {total_points} points")
         self.cart = {}
 

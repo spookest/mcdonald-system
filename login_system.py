@@ -55,7 +55,6 @@ class LoginSystem:
         user_data = self.collection.find_one({"username": username})
 
         if user_data:
-            # Check if the new username is already taken by another user
             if new_username is not None:
                 existing_user = self.collection.find_one({"username": new_username})
                 if existing_user and existing_user["_id"] != user_data["_id"]:
