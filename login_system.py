@@ -2,9 +2,10 @@ import getpass
 import pymongo
 
 class User:
-    def __init__(self, username, password):
+    def __init__(self, username, password, points=0):
         self.username = username
         self.password = password
+        self.points = points
 
 class LoginSystem:
     def __init__(self, db_uri, db_name, collection_name):
@@ -50,24 +51,30 @@ class LoginSystem:
             print(f"User '{username}' not found.")
 
     # Update user's name and password
-    def update_user_info(self, username, new_username, new_password):
+    def update_user_info(self, username, new_username, new_password, points=None):
         user_data = self.collection.find_one({"username": username})
 
         if user_data:
             # Check if the new username is already taken by another user
-            existing_user = self.collection.find_one({"username": new_username})
-            if existing_user and existing_user["_id"] != user_data["_id"]:
-                print("The new username is already taken. Please choose another one.")
-                return
+            if new_username is not None:
+                existing_user = self.collection.find_one({"username": new_username})
+                if existing_user and existing_user["_id"] != user_data["_id"]:
+                    print("The new username is already taken. Please choose another one.")
+                    return
 
             # Update the user's information
             update_data = {
                 "$set": {
-                    "username": new_username,
-                    "password": new_password
+                    "username": new_username or user_data["username"],
+                    "password": new_password or user_data["password"],
                 }
             }
             self.collection.update_one({"_id": user_data["_id"]}, update_data)
+
+            if points is not None:
+                current_points = user_data.get("points", 0)
+                new_points = current_points + points
+                self.collection.update_one({"_id": user_data["_id"]}, {"$set": {"points": new_points}})
 
             print(f"User '{username}' updated successfully.")
         else:

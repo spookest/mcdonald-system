@@ -15,6 +15,7 @@ class OrderingSystem:
             print(f"{item: <15}{points} points")
         print("***********************")
 
+    # Purchase food items
     def purchase_item(self, item, quantity):
         if item in self.menu:
             if item in self.cart:
@@ -23,6 +24,7 @@ class OrderingSystem:
                 self.cart[item] = quantity
             print(f"Purchased {quantity} {item}(s).")
 
+    # Calculate total points
     def calculate_total_points(self):
         total_points = 0
         for item, quantity in self.cart.items():
@@ -30,12 +32,14 @@ class OrderingSystem:
                 total_points += self.menu[item] * quantity
         return total_points
 
+    # View items in cart
     def view_cart(self):
         print("Cart Contents:")
         for item, quantity in self.cart.items():
             print(f"{item} - {quantity}")
         print(f"Total Points: {self.calculate_total_points()} points")
 
+    # Purchasing items in cart
     def checkout(self, login_system):
         total_points = self.calculate_total_points()
 
@@ -44,7 +48,10 @@ class OrderingSystem:
             return
 
         username = login_system.current_user['username']
-        login_system.update_user_points(username, total_points)
+        
+        # Pass placeholders for new_username and new_password
+        login_system.update_user_info(username, None, None, total_points)
+        
         print(f"Thank you for your order! Total points: {total_points} points")
         self.cart = {}
 
